@@ -72,8 +72,8 @@ volatile float countLeft_old  = 0;                      // old left count; used 
 volatile float countRight_old = 0;                      // old right count; used for encoder functionality
 volatile float desireddistanceFromOrigin, desiredAngle; // variables for the desired distanceFromOrigin and rotation
 volatile long countLeft, countRight;                    // encoder count variables, updated when entering encoder ISR
-int left_motor_pwm = 25;                                // declares and sets the initial value of the left motor pwm signal
-int right_motor_pwm = 25;                               // declares and sets the initial value of the right motor pwm signal
+int left_motor_pwm = 60;                                // declares and sets the initial value of the left motor pwm signal
+int right_motor_pwm = 60;                               // declares and sets the initial value of the right motor pwm signal
 boolean turnFlag, driveFlag, readyFlag;                 // flags used to determine when to execuse turn and drive functionality
 int i = 0;                                              // loop variable i
 int n = 0;                                              // loop variable n
@@ -157,8 +157,7 @@ resetPos();     // Some rotation will have accumulated prior to the distance and
 
 
 if(readyFlag == true){
-  target_omega = 0.7; // desired wheel speed in radians per second (rad/s)
-//  for(n = 0; n < VECSIZE; n++){
+//  
     if(phi_vect[n] != 0) turnFlag = true;
     else turnFlag == false;
     if(turnFlag == true){
@@ -173,7 +172,7 @@ if(readyFlag == true){
           Serial.print(" desired ");
           Serial.println(phi_vect[n]);
           if(abs(phi_old-phi_vect[n]) < (0.5*phi_vect[n]) || abs(phi_old-phi_vect[n]) < (0.5*phi_vect[n])){
-            target_omega = 0.02;
+            target_omega = 0.7;
           }
         }
       }
@@ -185,7 +184,7 @@ if(readyFlag == true){
           Serial.print(" phi ");
           Serial.println(phi_old);
           if(abs(phi_old-phi_vect[n]) < (0.5*phi_vect[n]) || abs(phi_old-phi_vect[n]) < (0.5*phi_vect[n])){
-            target_omega = 0.02;
+            target_omega = 0.7;
           }
         }
       }
@@ -194,13 +193,10 @@ if(readyFlag == true){
       stopMotors();
     } // end if turnFlag == true line
     
-      delay(300); // let the motor settle after turning
-//      left_motor_pwm = 50;
-//      right_motor_pwm = 50;
+      delay(150); // let the motor settle after turning
   
       if(dist_vect[n] != 0) driveFlag = true;
       if(driveFlag == true){
-        target_omega = 1.59;
         Serial.print("Driving straight ... ");
         if(distanceFromOrigin < dist_vect[n]){
           while (distanceFromOrigin < (dist_vect[n] - 0.1)){
@@ -247,7 +243,7 @@ if(readyFlag == true){
             Serial.print("  ");
             Serial.println(right_motor_pwm);
   
-        delay(200);
+        delay(150);
         if(n == 0){ // when on the first element of the dist_vect(desired distances) and phi_vect (desired angles)
           curr_x = x_old; // 
           curr_y = y_old;
@@ -374,7 +370,7 @@ void feedbackDriveLoop(){ // begin feedbackDriveLoop
   
     startTime = millis(); // begin time check
     runMotors(); // start the motors
-    delay(5); // wait 5 ms
+    delay(5); // wait 5 ms for sampling
     readEncoders(); // read the encoders
     endTime = millis(); // stop the timer
     
