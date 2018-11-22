@@ -1,3 +1,4 @@
+*----INTRODUCTION TO GIT USAGE -----
 Here are a few basic git commands:
 
 git remote add origin URL // sets the url of the host git repository
