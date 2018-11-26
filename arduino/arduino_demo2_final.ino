@@ -32,7 +32,7 @@
  * ------------------------------------------------*/
 #include <Encoder.h> //Include the 4x encoder library 
 #include <math.h> // Include the math library
-#include <Wire.h>
+#include <Wire.h> // include the library to communicate with the Pi
 
 /* -------------------------------------------------
  * --------------------DEFINES----------------------
@@ -50,8 +50,7 @@
 #define RMOTOR_DIR 8    // pin # for motor2 dir input (true or false)
 #define M_ENABLE 4      // pin # for motor enable, both. 
 #define FAULT 12        // pin # for motor fault detection
-#define VECSIZE 4      
-#define SLAVE_ADDRESS 0x04
+#define SLAVE_ADDRESS 0x04 // memory address for communication
 
 /* -------------------------------------------------
  * --------------Encoder objects--------------------
